@@ -7,4 +7,5 @@
 //
 
 import Foundation
-
+private let menu = Menu()
+menu.start()

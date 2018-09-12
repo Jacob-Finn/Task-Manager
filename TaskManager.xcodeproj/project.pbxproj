@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		7B3253DE2149615B00B334ED /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3253DD2149615B00B334ED /* main.swift */; };
 		7B3253E52149647C00B334ED /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3253E42149647C00B334ED /* Menu.swift */; };
+		7B3253E7214965FE00B334ED /* InputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3253E6214965FE00B334ED /* InputManager.swift */; };
+		7B9529F3214967E100C18917 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9529F2214967E100C18917 /* Task.swift */; };
+		7B9529F5214968B500C18917 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9529F4214968B500C18917 /* TaskManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +30,9 @@
 		7B3253DA2149615B00B334ED /* TaskManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TaskManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B3253DD2149615B00B334ED /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		7B3253E42149647C00B334ED /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		7B3253E6214965FE00B334ED /* InputManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputManager.swift; sourceTree = "<group>"; };
+		7B9529F2214967E100C18917 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		7B9529F4214968B500C18917 /* TaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,9 @@
 			children = (
 				7B3253DD2149615B00B334ED /* main.swift */,
 				7B3253E42149647C00B334ED /* Menu.swift */,
+				7B3253E6214965FE00B334ED /* InputManager.swift */,
+				7B9529F2214967E100C18917 /* Task.swift */,
+				7B9529F4214968B500C18917 /* TaskManager.swift */,
 			);
 			path = TaskManager;
 			sourceTree = "<group>";
@@ -122,6 +131,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B9529F3214967E100C18917 /* Task.swift in Sources */,
+				7B3253E7214965FE00B334ED /* InputManager.swift in Sources */,
+				7B9529F5214968B500C18917 /* TaskManager.swift in Sources */,
 				7B3253E52149647C00B334ED /* Menu.swift in Sources */,
 				7B3253DE2149615B00B334ED /* main.swift in Sources */,
 			);
