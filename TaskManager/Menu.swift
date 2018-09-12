@@ -35,7 +35,7 @@
                 print("Not done")
                 // create a task
             case 2:
-                print("Not done")
+                TaskManager.deleteTask()
                 // delete a task
             case 3:
                 TaskManager.changeCompletion()

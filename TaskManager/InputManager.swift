@@ -10,7 +10,6 @@ import Foundation
 
 private var userInput: String?
 private var selectionMade = false
-private let menu = Menu()
 
 class InputManager {
     
@@ -54,7 +53,7 @@ class InputManager {
     }
 }
 // Line 49 - Since the InputManager.playerInput will return an error value of -3 if the number isn't allowed we can use this error value
-// to determine if a number has been set or not.
+// to determine if a number has been set or not. Also -3 will never be returned by default.
 
 
 
