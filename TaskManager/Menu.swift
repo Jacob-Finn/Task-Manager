@@ -11,6 +11,7 @@
     class Menu {
         var hasQuit = false
         func start () {
+            TaskManager.loadArray()
             print("""
                 Welcome to the task manager!
                 Please enter the corresponding number for your selection.
@@ -30,7 +31,7 @@
         }
         
         func checkInput() {
-            let userChoice = InputManager.playerInput(numberOfChoices: 11)
+            let userChoice = InputManager.playerInput(numberOfChoices: 9)
             
             switch userChoice {
             case 1:
@@ -54,10 +55,6 @@
                 help()
             case 9:
                 quit()
-            case 10:
-                taskManager.saveArray() // debug
-            case 11:
-                taskManager.printArray() // debug
             default:
                 break
             }
@@ -85,6 +82,7 @@
                     """)
         }
         func quit() {
+            TaskManager.saveArray()
             exit(25)
         }
         

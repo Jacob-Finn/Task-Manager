@@ -9,20 +9,24 @@
 import Foundation
 
 class TaskManager {
-     let userDefaults = UserDefaults.standard
+    let userDefaults = UserDefaults.standard
     
     
     private static var taskArray: [Task] = [
-        Task(title: "Get food", description: "Get food from Mcdonald's", completeByDate: nil),
-        Task(title: "Get laundry", description: "From the dryer!", completeByDate: nil),
-        Task(title: "I am debug", description: "Debugging since 1998", completeByDate: nil)
+        Task(title: "Debug code", description: "Still debugging", priority: .Critical, completeByDate: nil)
     ]
     
-     func saveArray() {
-        // https://medium.com/@imranjutt/data-persistence-in-ios-2804d04bde62 Just do this tomorrow
-    }
-    func printArray() {
+    
+    static func saveArray() {
+        let taskArray = TaskManager.taskArray
+        let taskArrayData = NSKeyedArchiver.archivedData(withRootObject: taskArray)
+        UserDefaults.standard.set(taskArrayData, forKey: "taskArray")
         
+    }
+    static func loadArray() {
+        let taskArrayData = UserDefaults.standard.value(forKey: "taskArray")
+        let taskArray = NSKeyedUnarchiver.unarchiveObject(with: taskArrayData as! Data)
+        TaskManager.taskArray = taskArray as! [Task]
     }
     
     
@@ -86,6 +90,7 @@ class TaskManager {
         let task = Task(title: inputedTaskTitle!, description: inputedTaskDescription!, priority: inputedPriority, completeByDate: nil)
         task.setDate(days: daysToAdd!)
         taskArray.append(task)
+        saveArray()
         print("task \(task.title) has been created\n")
     }
     
@@ -157,7 +162,7 @@ class TaskManager {
         var userInput = (InputManager.getIndex(taskArray: taskArray) - 1) // Because we print the index with a value of +1, we need to -1.
         let selectedTask = taskArray[userInput]
         print(  """
-            Selected - \(selectedTask.title): \(selectedTask.description) \(selectedTask.isComplete)
+            Selected - \(selectedTask.title): \(selectedTask.taskDescription) \(selectedTask.isComplete)
             Please enter the corresponding value to change completion.
             1. Complete
             2. Uncomplete
@@ -166,9 +171,11 @@ class TaskManager {
         if userInput == 1 {
             selectedTask.changeCompletion(to: true)
             print("\(selectedTask.title) is now completed\n")
+            saveArray()
         } else if userInput == 2 {
             selectedTask.changeCompletion(to: false)
             print("\(selectedTask.title) is now uncompleted.\n")
+            saveArray()
         }
     }
     
@@ -179,6 +186,7 @@ class TaskManager {
         let userInput = (InputManager.getIndex(taskArray: taskArray) - 1)
         print("Removing \(taskArray[userInput].title)")
         taskArray.remove(at: userInput)
+        saveArray()
     }
     
     
@@ -197,9 +205,9 @@ class TaskManager {
         }
         for (index,task) in completedTasks.enumerated() {
             if task.completeByDate == nil {
-                print("\(index + 1). \(task.title): \(task.description)")
+                print("\(index + 1). \(task.title): \(task.taskDescription)")
             }else {
-                print("\(index + 1). \(task.title): \(task.description)| \(task.completeByDateString)")
+                print("\(index + 1). \(task.title): \(task.taskDescription)| \(task.completeByDateString)")
             }
         }
     }
@@ -215,9 +223,9 @@ class TaskManager {
         }
         for (index,task) in uncompletedTasks.enumerated() {
             if task.completeByDate == nil {
-                print("\(index + 1). \(task.title): \(task.description)")
+                print("\(index + 1). \(task.title): \(task.taskDescription)")
             }else {
-                print("\(index + 1). \(task.title): \(task.description)| \(task.completeByDateString)")
+                print("\(index + 1). \(task.title): \(task.taskDescription)| \(task.completeByDateString)")
             }
         }
     }
@@ -229,15 +237,15 @@ class TaskManager {
             if task.completeByDate == nil {
                 if task.isComplete
                 {
-                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) Status: Completed")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.taskDescription) Status: Completed")
                 }else {
-                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) Status: Incomplete")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.taskDescription) Status: Incomplete")
                 }
             }else {
                 if task.isComplete {
-                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) |\(task.completeByDateString)| Status: Completed")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.taskDescription) |\(task.completeByDateString)| Status: Completed")
                 }else {
-                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) |\(task.completeByDateString)| Status: Incomplete")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.taskDescription) |\(task.completeByDateString)| Status: Incomplete")
                 }
             }
         }
