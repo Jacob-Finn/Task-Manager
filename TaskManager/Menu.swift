@@ -32,8 +32,7 @@
             
             switch userChoice {
             case 1:
-                print("Not done")
-                // create a task
+                TaskManager.addTask()
             case 2:
                 TaskManager.deleteTask()
                 // delete a task

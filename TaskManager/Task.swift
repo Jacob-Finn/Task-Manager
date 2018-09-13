@@ -7,6 +7,11 @@
 //
 
 import Foundation
+enum Priority: Int {
+    case Standard = 1
+    case Important
+    case Critical
+}
 
 class Task {
     
@@ -15,16 +20,40 @@ class Task {
     var isComplete: Bool
     var completeByDate: Date?
     var completeByDateString: String
+    var priority: Priority
+    
     
     init(title: String, description: String, completeByDate: Date?) {
         self.title = title
         self.description = description
         self.isComplete = false
+        self.priority = .Standard
         self.completeByDate = completeByDate
-        completeByDateString = "" // Change this later to do a computation function.
+        completeByDateString = ""
     }
+    
+    init(title: String, description: String, priority: Priority, completeByDate: Date?) {
+        self.title = title
+        self.description = description
+        self.isComplete = false
+        self.priority = priority
+        self.completeByDate = completeByDate
+        completeByDateString = "" // Get sets when the setDate function is ran
+    }
+    
     func changeCompletion(to isComplete: Bool) {
         self.isComplete = isComplete
+    }
+    
+    func setDate(days timeToAdd: Int) {
+        let dateFormatter = DateFormatter()
+        let calander = Calendar(identifier: .gregorian)
+        let today = Date()
+        let calculatedDate = calander.date(byAdding: .day, value: timeToAdd, to: today)
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let dueDateString = dateFormatter.string(from: calculatedDate!)
+        self.completeByDateString = dueDateString
+        self.completeByDate = calculatedDate!
     }
     
     
