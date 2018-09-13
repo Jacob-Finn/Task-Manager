@@ -20,6 +20,9 @@ class InputManager {
                 print("\n\n\n\n\n\n\n\n\n\n")
                 break;
             }
+            if userInput?.lowercased() == "quit"{
+                menu.quit()
+            }
             if userInput?.lowercased() == "help" {
                 menu.help()
             } else if let userInput = Int(userInput!) {

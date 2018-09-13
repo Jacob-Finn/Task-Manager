@@ -69,17 +69,19 @@
         
         
         func help() {
-            print   ("""
-                    Please enter the corresponding number for your selection.
-                    1. Create a task.
-                    2. Delete a task.
-                    3. Change a task's completion.
-                    4. Show all tasks
-                    5. Show completed tasks
-                    6. Show uncomplete tasks.
-                    7. Menu commands
-                    8. Exit
-                    """)
+            print("""
+                Welcome to the task manager!
+                Please enter the corresponding number for your selection.
+                1. Create a task.
+                2. Delete a task.
+                3. Change a task's completion.
+                4. Show all tasks
+                5. Show completed tasks
+                6. Show uncomplete tasks.
+                7. Edit a task's properties
+                8. Menu commands
+                9. Exit
+                """)
         }
         func quit() {
             TaskManager.saveArray()

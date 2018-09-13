@@ -23,6 +23,9 @@ class Task: NSObject, NSCoding {
     var priority: Priority
     
     
+    // I use multiple init to handle different situations. For testing, I can use an init with very few values to allow me to debug faster.
+    // for user creation I can give slightly more values so that it can be created from the users input
+    // for loading a title, I need all the values to be loaded and thus it is the most extensive init.
     init(title: String, description: String, completeByDate: Date?) {
         self.title = title
         self.taskDescription = description
@@ -50,8 +53,24 @@ class Task: NSObject, NSCoding {
         self.completeByDateString = completeByDateString
     }
     
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.title , forKey: "title")
+        aCoder.encode(self.taskDescription, forKey: "taskDescription")
+        aCoder.encode(self.isComplete, forKey: "isComplete")
+        aCoder.encode(self.completeByDateString, forKey: "completeByDateString")
+        aCoder.encode(self.completeByDate, forKey: "completeByDate")
+        aCoder.encode(self.priority.rawValue, forKey: "priority")
+    }
     
-    
+    convenience required init?(coder aDecoder: NSCoder) {
+        let title = aDecoder.decodeObject(forKey: "title") as! String
+        let taskDescription = aDecoder.decodeObject(forKey: "taskDescription") as! String
+        let isComplete = aDecoder.decodeBool(forKey: "isComplete")
+        let completeByDateString = aDecoder.decodeObject(forKey: "completeByDateString") as! String
+        let completeByDate = aDecoder.decodeObject(forKey: "completeByDate") as! Date?
+        let priority = aDecoder.decodeInteger(forKey: "priority")
+        self.init(title: title, description: taskDescription, priorityRawValue: priority, completeByDate: completeByDate, isComplete: isComplete, completeByDateString: completeByDateString)
+    }
     
     func changeCompletion(to isComplete: Bool) {
         self.isComplete = isComplete
@@ -73,35 +92,14 @@ class Task: NSObject, NSCoding {
         }
     }
     
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.title , forKey: "title")
-        aCoder.encode(self.taskDescription, forKey: "taskDescription")
-        aCoder.encode(self.isComplete, forKey: "isComplete")
-        aCoder.encode(self.completeByDateString, forKey: "completeByDateString")
-        aCoder.encode(self.completeByDate, forKey: "completeByDate")
-        aCoder.encode(self.priority.rawValue, forKey: "priority")
-    }
-    
-    
-    convenience required init?(coder aDecoder: NSCoder) {
-        let title = aDecoder.decodeObject(forKey: "title") as! String
-        let taskDescription = aDecoder.decodeObject(forKey: "taskDescription") as! String
-        let isComplete = aDecoder.decodeBool(forKey: "isComplete")
-        let completeByDateString = aDecoder.decodeObject(forKey: "completeByDateString") as! String
-        let completeByDate = aDecoder.decodeObject(forKey: "completeByDate") as! Date?
-        let priority = aDecoder.decodeInteger(forKey: "priority")
-        self.init(title: title, description: taskDescription, priorityRawValue: priority, completeByDate: completeByDate, isComplete: isComplete, completeByDateString: completeByDateString)
-        
-    }
-    
-    
-    
     func setTitle(to newTitle: String) {
         self.title = newTitle
     }
+    
     func setDescription(to newDescription: String) {
         self.taskDescription = newDescription
     }
+    
     func setPriority(to newPriority: Priority) {
         self.priority = newPriority
     }

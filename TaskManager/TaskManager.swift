@@ -146,11 +146,9 @@ class TaskManager {
                 selectedTask.setPriority(to: .Standard)
                 print("Priority has been changed.")
             }
-            
         default:
             break
         }
-        
     }
     
     
@@ -249,10 +247,5 @@ class TaskManager {
                 }
             }
         }
-    }
-    
-    
-    
-    
-    
+    }  
 }
