@@ -8,5 +8,4 @@
 
 import Foundation
 let menu = Menu()
-
 menu.start()

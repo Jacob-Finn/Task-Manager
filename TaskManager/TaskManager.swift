@@ -9,13 +9,23 @@
 import Foundation
 
 class TaskManager {
+     let userDefaults = UserDefaults.standard
+    
     
     private static var taskArray: [Task] = [
         Task(title: "Get food", description: "Get food from Mcdonald's", completeByDate: nil),
         Task(title: "Get laundry", description: "From the dryer!", completeByDate: nil),
         Task(title: "I am debug", description: "Debugging since 1998", completeByDate: nil)
     ]
-
+    
+     func saveArray() {
+        // https://medium.com/@imranjutt/data-persistence-in-ios-2804d04bde62 Just do this tomorrow
+    }
+    func printArray() {
+        
+    }
+    
+    
     
     
     private static func checkForEmpty() { // If the array is empty we don't want to force the users into a loop!
@@ -39,7 +49,7 @@ class TaskManager {
         } while inputedTaskTitle == nil
         print("Please enter the description of your task (optional)")
         let inputedTaskDescription = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines)
-        print("Please enter how many days you would like this task completed in.\nUse -1 for no day set.")
+        print("Please enter how many days you would like this task completed in.\nUse -1 for no day set and 0 if you would like today to be the due date.")
         var daysToAdd: Int? = nil
         repeat {
             let userInput = readLine()
@@ -74,12 +84,70 @@ class TaskManager {
         }
         
         let task = Task(title: inputedTaskTitle!, description: inputedTaskDescription!, priority: inputedPriority, completeByDate: nil)
-        if(daysToAdd != -1) {
-            task.setDate(days: daysToAdd!)
-        }
+        task.setDate(days: daysToAdd!)
         taskArray.append(task)
-        print("task \(task.title) has been created")
+        print("task \(task.title) has been created\n")
     }
+    
+    static func editTask() {
+        checkForEmpty()
+        TaskManager.printAllTasks()
+        print("Which task would you like to edit?")
+        var userInput = InputManager.getIndex(taskArray: taskArray)
+        let selectedTask = taskArray[userInput - 1] // subtract 1 since index is shown with +1
+        print(  """
+                What would you like to edit?
+                1. Title
+                2. Description
+                3. Task due date
+                4. Priority
+                """)
+        userInput = InputManager.playerInput(numberOfChoices: 4)
+        switch userInput {
+        case 1:
+            print("Please enter the new title")
+            let userInput = readLine()
+            selectedTask.setTitle(to: userInput!)
+            print("Title has been changed.")
+        case 2:
+            print("Please enter your new description")
+            let userInput = readLine()
+            selectedTask.setDescription(to: userInput!)
+            print("Description has been changed.")
+        case 3:
+            print("Please enter the new due date.\nRemember that -1 removes the due date and 0 will set the due date to today.")
+            let userInput = InputManager.getRealNumber()
+            selectedTask.setDate(days: userInput)
+            print("Date has been changed.")
+        case 4:
+            print(  """
+                Please enter the priority of this task.
+                1. Standard
+                2. Important
+                3. Critical
+                """)
+            let userInput = InputManager.playerInput(numberOfChoices: 3)
+            switch userInput {
+            case 1:
+                selectedTask.setPriority(to: .Standard)
+                print("Priority has been changed.")
+            case 2:
+                selectedTask.setPriority(to: .Important)
+                print("Priority has been changed.")
+            case 3:
+                selectedTask.setPriority(to: .Critical)
+                print("Priority has been changed.")
+            default:
+                selectedTask.setPriority(to: .Standard)
+                print("Priority has been changed.")
+            }
+            
+        default:
+            break
+        }
+        
+    }
+    
     
     
     static func changeCompletion() {
@@ -114,6 +182,9 @@ class TaskManager {
     }
     
     
+    static func sortTasks() {
+        taskArray.sort(by: { $0.priority.rawValue > $1.priority.rawValue})
+    }
     
     
     static func printCompletedTasks() {
@@ -151,12 +222,6 @@ class TaskManager {
         }
     }
     
-    static func sortTasks() {
-        taskArray.sort(by: { $0.priority.rawValue > $1.priority.rawValue})
-    }
-    
-    
-    
     
     static func printAllTasks() {
         sortTasks()
@@ -164,15 +229,15 @@ class TaskManager {
             if task.completeByDate == nil {
                 if task.isComplete
                 {
-                    print("\(index + 1). \(task.title): \(task.description) Status: Completed")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) Status: Completed")
                 }else {
-                    print("\(index + 1). \(task.title): \(task.description) Status: Incomplete")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) Status: Incomplete")
                 }
             }else {
                 if task.isComplete {
-                    print("\(index + 1). \(task.title): \(task.description)| \(task.completeByDateString) Status: Completed")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) |\(task.completeByDateString)| Status: Completed")
                 }else {
-                    print("\(index + 1). \(task.title): \(task.description)| \(task.completeByDateString) Status: Incomplete")
+                    print("\(index + 1). Priority: \(task.priority)| \(task.title): \(task.description) |\(task.completeByDateString)| Status: Incomplete")
                 }
             }
         }

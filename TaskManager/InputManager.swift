@@ -51,13 +51,33 @@ class InputManager {
         } while userInput == nil
         return userInput!
     }
+    
+    // Line 49 - Since the InputManager.playerInput will return an error value of -3 if the number isn't allowed we can use this error value
+    // to determine if a number has been set or not. Also -3 will never be returned by default.
+    
+    static func getRealNumber() -> Int {
+        var userInput: String? = nil
+        var allowedNumber = 0
+        repeat {
+            userInput = readLine()
+            guard let userInt = Int(userInput!) else {
+                print("Please use a real number!")
+                userInput = nil
+                continue
+            }
+            if userInt < -1 {
+                print("Invalid number!")
+                userInput = nil
+                continue
+            }else {
+                allowedNumber = userInt
+            }
+            
+        } while userInput == nil
+        return allowedNumber
+    }
+    
+    
 }
-// Line 49 - Since the InputManager.playerInput will return an error value of -3 if the number isn't allowed we can use this error value
-// to determine if a number has been set or not. Also -3 will never be returned by default.
-
-
-
-
-
 
 

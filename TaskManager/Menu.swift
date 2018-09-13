@@ -7,6 +7,7 @@
     //
     
     import Foundation
+    let taskManager = TaskManager() // remove me later
     class Menu {
         var hasQuit = false
         func start () {
@@ -19,8 +20,9 @@
                 4. Show all tasks
                 5. Show completed tasks
                 6. Show uncomplete tasks.
-                7. Menu commands
-                8. Exit
+                7. Edit a task's properties
+                8. Menu commands
+                9. Exit
                 """)
             repeat {
                 checkInput()
@@ -28,28 +30,34 @@
         }
         
         func checkInput() {
-            let userChoice = InputManager.playerInput(numberOfChoices: 8)
+            let userChoice = InputManager.playerInput(numberOfChoices: 11)
             
             switch userChoice {
             case 1:
                 TaskManager.addTask()
             case 2:
                 TaskManager.deleteTask()
-                // delete a task
+            // delete a task
             case 3:
                 TaskManager.changeCompletion()
             case 4:
                 TaskManager.printAllTasks()
             case 5:
                 TaskManager.printCompletedTasks()
-                // show completed tasks
+            // show completed tasks
             case 6:
                 TaskManager.printUncompleteTasks()
-                // show uncomplete tasks
+            // show uncomplete tasks
             case 7:
-                help()
+                TaskManager.editTask()
             case 8:
+                help()
+            case 9:
                 quit()
+            case 10:
+                taskManager.saveArray() // debug
+            case 11:
+                taskManager.printArray() // debug
             default:
                 break
             }
@@ -77,7 +85,7 @@
                     """)
         }
         func quit() {
-        exit(25)
+            exit(25)
         }
         
         
