@@ -12,6 +12,8 @@ class TaskManager {
     let userDefaults = UserDefaults.standard
     
     
+    // Most of the functions here are Static as the TaskManager is not really an object per say, and there should only ever should be one list that we're working with. Using a static function achieves this goal.
+    
     private static var taskArray: [Task] = [
         Task(title: "Debug code", description: "Still debugging", priority: .Critical, completeByDate: nil)
     ]
@@ -96,6 +98,7 @@ class TaskManager {
         print("task \(task.title) has been created\n")
     }
     
+    // Edit task uses a lot of switch statements in order to simplify selection.
     static func editTask() {
         checkForEmpty()
         TaskManager.printAllTasks()
@@ -175,10 +178,11 @@ class TaskManager {
         } else if userInput == 2 {
             selectedTask.changeCompletion(to: false)
             print("\(selectedTask.title) is now uncompleted.\n")
-            saveArray()
+            saveArray() // I often call my save function after creating something new, just in case the user stops the program instead of ending it VIA quit like they should.
         }
     }
     
+    // Delete a task at the index and then save the array.
     static func deleteTask() {
         checkForEmpty()
         print("Please select which task you would like to delete.")
@@ -189,7 +193,7 @@ class TaskManager {
         saveArray()
     }
     
-    
+   // Sort the tasks by their priorities raw value. higher numbers go on top.
     static func sortTasks() {
         taskArray.sort(by: { $0.priority.rawValue > $1.priority.rawValue})
     }
