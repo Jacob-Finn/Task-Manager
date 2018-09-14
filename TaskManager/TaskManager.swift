@@ -24,7 +24,9 @@ class TaskManager {
         
     }
     static func loadArray() {
-        let taskArrayData = UserDefaults.standard.value(forKey: "taskArray")
+        guard let taskArrayData = UserDefaults.standard.value(forKey: "taskArray") else {
+            return
+        }
         let taskArray = NSKeyedUnarchiver.unarchiveObject(with: taskArrayData as! Data)
         TaskManager.taskArray = taskArray as! [Task]
     }
@@ -247,5 +249,5 @@ class TaskManager {
                 }
             }
         }
-    }  
+    }
 }
