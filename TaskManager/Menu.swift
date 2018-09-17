@@ -76,13 +76,13 @@
                 if userInput == userPassword {
                     print("Password correct!")
                     passwordCorrect = true
-                }
-                else {
+                }else if userInput == "forgotMyPassword" {
+                    createPassword()
+                }else {
                     print("Invalid password")
                     passwordCorrect = false
                 }
             } while !passwordCorrect
-            
         }
         func createPassword() {
             
@@ -96,7 +96,7 @@
                 userPassword = userInput!
                 userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines)
                 if userInput?.lowercased() == "yes" {
-                    print("Password is correct.")
+                    print("Password is correct. Please re-enter your password to log in.")
                     userDefaults.set(userPassword, forKey: "password")
                     selectionMade = true
                 }else if userInput?.lowercased() == "no" {
@@ -107,7 +107,7 @@
                     selectionMade = false
                 }
             } while !selectionMade
-            checkPassword()
+            return
         }
         
         
