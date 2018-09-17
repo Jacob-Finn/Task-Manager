@@ -193,7 +193,7 @@ class TaskManager {
         saveArray()
     }
     
-   // Sort the tasks by their priorities raw value. higher numbers go on top.
+    // Sort the tasks by their priorities raw value. higher numbers go on top.
     static func sortTasks() {
         taskArray.sort(by: { $0.priority.rawValue > $1.priority.rawValue})
     }
