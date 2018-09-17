@@ -10,11 +10,19 @@ import Foundation
 
 private var userInput: String?
 private var selectionMade = false
+private var userNotified = false
 
 class InputManager {
     
     static func playerInput (numberOfChoices: Int) -> Int {
+        var failedAttempts = 0
+        userNotified = false
         repeat {
+            if failedAttempts > 10 && !userNotified  {
+                print("You're really special aren't you?")
+                userNotified = true
+                continue
+            }
             userInput = readLine()!.trimmingCharacters(in: .whitespacesAndNewlines)
             if userInput?.lowercased() == "clear" { // a helpful function if the console is starting to get too cluttered.
                 print("\n\n\n\n\n\n\n\n\n\n")
@@ -28,16 +36,19 @@ class InputManager {
             } else if let userInput = Int(userInput!) {
                 if (userInput <= 0) {
                     print("Did you really think that would work?") // Entering a negative number gives you a specific response. Kind of sarcastic.
+                    failedAttempts += 1
                     continue
                 }
                 if (userInput > numberOfChoices) {
                     print("Not a valid option! There are only \(numberOfChoices) choices!")
+                    failedAttempts += 1
                     continue
                 }
                 selectionMade = true
                 return userInput
             }else {
                 print("Not a valid selection!")
+                failedAttempts += 1
             }
         } while !selectionMade
         return -3 // Error return

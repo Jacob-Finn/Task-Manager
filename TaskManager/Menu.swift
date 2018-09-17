@@ -7,10 +7,12 @@
     //
     
     import Foundation
-    let taskManager = TaskManager() // remove me later
+    
     class Menu {
+        let userDefaults = UserDefaults()
         var hasQuit = false
         func start () {
+            checkPassword()
             TaskManager.loadArray()
             print("""
                 Welcome to the task manager!
@@ -61,8 +63,52 @@
         }
         
         
-        
-        
+        func checkPassword() {
+            
+            let userDefaults = UserDefaults()
+            guard let userPassword = userDefaults.object(forKey: "password") as! String? else {
+                return createPassword()
+            }
+            var passwordCorrect = false
+            print("Please enter your password")
+            repeat {
+                let userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines)
+                if userInput == userPassword {
+                    print("Password correct!")
+                    passwordCorrect = true
+                }
+                else {
+                    print("Invalid password")
+                    passwordCorrect = false
+                }
+            } while !passwordCorrect
+            
+        }
+        func createPassword() {
+            
+            var userPassword: String
+            print("No password found, starting creation.")
+            var selectionMade = false
+            repeat {
+                print("Please enter your new password.")
+                var userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines)
+                print("Password set is '\(userInput!)' is this correct?\nyes or no?")
+                userPassword = userInput!
+                userInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines)
+                if userInput?.lowercased() == "yes" {
+                    print("Password is correct.")
+                    userDefaults.set(userPassword, forKey: "password")
+                    selectionMade = true
+                }else if userInput?.lowercased() == "no" {
+                    print("Returning to creation.")
+                    selectionMade = false
+                }else {
+                    print("Invalid input. Returning to creation.")
+                    selectionMade = false
+                }
+            } while !selectionMade
+            checkPassword()
+        }
         
         
         
