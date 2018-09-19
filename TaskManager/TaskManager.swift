@@ -36,13 +36,6 @@ class TaskManager {
     
     
     
-    private static func checkForEmpty() { // If the array is empty we don't want to force the users into a loop!
-        if taskArray.count == 0 {
-            print("No tasks found! Please make another selection.")
-            menu.checkInput()
-        }
-    }
-    
     static func addTask() {
         print("Please enter the title of your task.")
         var inputedTaskTitle: String? = nil
@@ -100,97 +93,107 @@ class TaskManager {
     
     // Edit task uses a lot of switch statements in order to simplify selection.
     static func editTask() {
-        checkForEmpty()
-        TaskManager.printAllTasks()
-        print("Which task would you like to edit?")
-        var userInput = InputManager.getIndex(taskArray: taskArray)
-        let selectedTask = taskArray[userInput - 1] // subtract 1 since index is shown with +1
-        print(  """
+        if taskArray.count != 0 {
+            TaskManager.printAllTasks()
+            print("Which task would you like to edit?")
+            var userInput = InputManager.getIndex(taskArray: taskArray)
+            let selectedTask = taskArray[userInput - 1] // subtract 1 since index is shown with +1
+            print(  """
                 What would you like to edit?
                 1. Title
                 2. Description
                 3. Task due date
                 4. Priority
                 """)
-        userInput = InputManager.playerInput(numberOfChoices: 4)
-        switch userInput {
-        case 1:
-            print("Please enter the new title")
-            let userInput = readLine()
-            selectedTask.setTitle(to: userInput!)
-            print("Title has been changed.")
-        case 2:
-            print("Please enter your new description")
-            let userInput = readLine()
-            selectedTask.setDescription(to: userInput!)
-            print("Description has been changed.")
-        case 3:
-            print("Please enter the new due date.\nRemember that -1 removes the due date and 0 will set the due date to today.")
-            let userInput = InputManager.getRealNumber()
-            selectedTask.setDate(days: userInput)
-            print("Date has been changed.")
-        case 4:
-            print(  """
+            userInput = InputManager.playerInput(numberOfChoices: 4)
+            switch userInput {
+            case 1:
+                print("Please enter the new title")
+                let userInput = readLine()
+                selectedTask.setTitle(to: userInput!)
+                print("Title has been changed.")
+            case 2:
+                print("Please enter your new description")
+                let userInput = readLine()
+                selectedTask.setDescription(to: userInput!)
+                print("Description has been changed.")
+            case 3:
+                print("Please enter the new due date.\nRemember that -1 removes the due date and 0 will set the due date to today.")
+                let userInput = InputManager.getRealNumber()
+                selectedTask.setDate(days: userInput)
+                print("Date has been changed.")
+            case 4:
+                print(  """
                 Please enter the priority of this task.
                 1. Standard
                 2. Important
                 3. Critical
                 """)
-            let userInput = InputManager.playerInput(numberOfChoices: 3)
-            switch userInput {
-            case 1:
-                selectedTask.setPriority(to: .Standard)
-                print("Priority has been changed.")
-            case 2:
-                selectedTask.setPriority(to: .Important)
-                print("Priority has been changed.")
-            case 3:
-                selectedTask.setPriority(to: .Critical)
-                print("Priority has been changed.")
+                let userInput = InputManager.playerInput(numberOfChoices: 3)
+                switch userInput {
+                case 1:
+                    selectedTask.setPriority(to: .Standard)
+                    print("Priority has been changed.")
+                case 2:
+                    selectedTask.setPriority(to: .Important)
+                    print("Priority has been changed.")
+                case 3:
+                    selectedTask.setPriority(to: .Critical)
+                    print("Priority has been changed.")
+                default:
+                    selectedTask.setPriority(to: .Standard)
+                    print("Priority has been changed.")
+                }
             default:
-                selectedTask.setPriority(to: .Standard)
-                print("Priority has been changed.")
+                break
             }
-        default:
-            break
+        }else {
+            print("No tasks to edit!")
+            
         }
     }
     
     
     
     static func changeCompletion() {
-        checkForEmpty()
-        print("Please select which task you would like to change the completion status on: ")
-        printAllTasks()
-        var userInput = (InputManager.getIndex(taskArray: taskArray) - 1) // Because we print the index with a value of +1, we need to -1.
-        let selectedTask = taskArray[userInput]
-        print(  """
-            Selected - \(selectedTask.title): \(selectedTask.taskDescription) \(selectedTask.isComplete)
-            Please enter the corresponding value to change completion.
-            1. Complete
-            2. Uncomplete
-            """)
-        userInput = InputManager.playerInput(numberOfChoices: 2)
-        if userInput == 1 {
-            selectedTask.changeCompletion(to: true)
-            print("\(selectedTask.title) is now completed\n")
-            saveArray()
-        } else if userInput == 2 {
-            selectedTask.changeCompletion(to: false)
-            print("\(selectedTask.title) is now uncompleted.\n")
-            saveArray() // I often call my save function after creating something new, just in case the user stops the program instead of ending it VIA quit like they should.
+        if taskArray.count != 0 {
+            print("Please select which task you would like to change the completion status on: ")
+            printAllTasks()
+            var userInput = (InputManager.getIndex(taskArray: taskArray) - 1) // Because we print the index with a value of +1, we need to -1.
+            let selectedTask = taskArray[userInput]
+            print(  """
+                Selected - \(selectedTask.title): \(selectedTask.taskDescription) \(selectedTask.isComplete)
+                Please enter the corresponding value to change completion.
+                1. Complete
+                2. Uncomplete
+                """)
+            userInput = InputManager.playerInput(numberOfChoices: 2)
+            if userInput == 1 {
+                selectedTask.changeCompletion(to: true)
+                print("\(selectedTask.title) is now completed\n")
+                saveArray()
+            } else if userInput == 2 {
+                selectedTask.changeCompletion(to: false)
+                print("\(selectedTask.title) is now uncompleted.\n")
+                saveArray() // I often call my save function after creating something new, just in case the user stops the program instead of ending it VIA quit like they should.
+            }
+        } else {
+            print("No tasks to change completion on.")
         }
     }
     
     // Delete a task at the index and then save the array.
     static func deleteTask() {
-        checkForEmpty()
-        print("Please select which task you would like to delete.")
-        printAllTasks()
-        let userInput = (InputManager.getIndex(taskArray: taskArray) - 1)
-        print("Removing \(taskArray[userInput].title)")
-        taskArray.remove(at: userInput)
-        saveArray()
+        if taskArray.count != 0 {
+            print("Please select which task you would like to delete.")
+            printAllTasks()
+            let userInput = (InputManager.getIndex(taskArray: taskArray) - 1)
+            print("Removing \(taskArray[userInput].title)")
+            taskArray.remove(at: userInput)
+            saveArray()
+        }else {
+            print("No tasks to delete.")
+        }
     }
     
     // Sort the tasks by their priorities raw value. higher numbers go on top.
